@@ -1,0 +1,1239 @@
+<!DOCTYPE html>
+<html lang="pl">
+<head>
+<meta charset="UTF-8" />
+<title>Expense Tracker — Lo-fi Wireframes</title>
+<script src="https://cdn.tailwindcss.com"></script>
+<style>
+  html, body { font-family: ui-sans-serif, system-ui, -apple-system, "Helvetica Neue", Arial, sans-serif; }
+  body { background: #FAFAFA; color: #000; }
+  /* Wireframe primitives */
+  .wf { border: 1px solid #999; background: #fff; }
+  .wf-soft { background: #F0F0F0; border: 1px solid #999; }
+  .wf-dashed { border: 1px dashed #999; }
+  .wf-line { border-bottom: 1px solid #999; }
+  .wf-text { background: #F0F0F0; height: 8px; border-radius: 2px; display: inline-block; }
+  .wf-text-dark { background: #999; height: 8px; border-radius: 2px; display: inline-block; }
+  .placeholder-x {
+    background:
+      linear-gradient(to top right, transparent calc(50% - 0.5px), #999 calc(50% - 0.5px), #999 calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+      linear-gradient(to top left, transparent calc(50% - 0.5px), #999 calc(50% - 0.5px), #999 calc(50% + 0.5px), transparent calc(50% + 0.5px)),
+      #F0F0F0;
+    border: 1px solid #999;
+  }
+  .frame-label {
+    font-size: 11px;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    color: #999;
+  }
+  .annot-num {
+    display: inline-flex;
+    width: 18px; height: 18px;
+    border: 1px solid #000;
+    border-radius: 999px;
+    align-items: center; justify-content: center;
+    font-size: 11px; font-weight: 600;
+    flex: none;
+  }
+  .arrow {
+    position: absolute;
+    border-top: 1px dashed #000;
+  }
+  .arrow::after {
+    content: "";
+    position: absolute;
+    right: -1px; top: -4px;
+    width: 0; height: 0;
+    border-left: 6px solid #000;
+    border-top: 4px solid transparent;
+    border-bottom: 4px solid transparent;
+  }
+  /* Mobile frame: 375 wide */
+  .mob { width: 375px; }
+  /* Desktop frame: 1280 wide -- scaled down so it fits */
+  .desk { width: 1280px; transform-origin: top left; }
+  .desk-wrap { width: 800px; height: auto; }
+  .desk-wrap .desk { transform: scale(0.625); } /* 1280 * 0.625 = 800 */
+  /* Section divider */
+  .screen-block + .screen-block { margin-top: 80px; padding-top: 80px; border-top: 2px dashed #999; }
+  /* Type */
+  .mono { font-family: ui-monospace, SFMono-Regular, Menlo, Consolas, monospace; }
+
+  /* Tag/chip */
+  .chip { border: 1px solid #999; padding: 4px 10px; font-size: 12px; border-radius: 4px; background: #fff; }
+  .chip-active { background: #000; color: #fff; border-color: #000; }
+  .pill { border: 1px solid #999; border-radius: 999px; padding: 2px 8px; font-size: 10px; color: #000; background: #fff; }
+  .input { border: 1px solid #999; height: 36px; padding: 0 10px; display: flex; align-items: center; font-size: 13px; color: #999; background:#fff; border-radius: 2px; }
+  .btn { border: 1px solid #000; padding: 8px 14px; font-size: 13px; border-radius: 2px; }
+  .btn-primary { background: #000; color: #fff; }
+  .btn-ghost { background: #fff; color: #000; }
+
+  /* avatar circle with letter */
+  .avatar { width: 32px; height: 32px; border-radius: 999px; border: 1px solid #999; display:inline-flex; align-items:center; justify-content:center; background:#F0F0F0; font-size: 12px; }
+  .icon-box { width: 24px; height: 24px; border: 1px solid #999; display: inline-flex; align-items:center; justify-content:center; font-size: 10px; color: #999; background: #fff; }
+  .icon-box-sm { width: 18px; height: 18px; border: 1px solid #999; display:inline-flex; align-items:center; justify-content:center; font-size: 9px; color:#999; background:#fff; }
+</style>
+</head>
+<body class="text-black">
+
+<!-- =========================== HEADER =========================== -->
+<header class="max-w-[1700px] mx-auto px-10 pt-12 pb-8">
+  <div class="flex items-baseline gap-4 border-b border-gray-400 pb-4">
+    <div class="text-[11px] tracking-[0.2em] uppercase text-gray-500">Lo-fi wireframes · v0.1</div>
+  </div>
+  <h1 class="mt-6 text-4xl font-semibold tracking-tight">Expense Tracker</h1>
+  <p class="mt-2 text-sm text-gray-700 max-w-2xl">Szkice o niskiej szczegółowości — pokazują strukturę, układ i przepływ. Skala szarości, bez ikon, bez zdjęć, jeden font. Każdy ekran w wersji <span class="mono">375px</span> (mobile) i <span class="mono">1280px</span> (desktop, skalowane do 62,5%).</p>
+
+  <div class="mt-6 grid grid-cols-2 md:grid-cols-5 gap-2 max-w-3xl text-[12px]">
+    <a href="#s1" class="border border-gray-400 px-3 py-2 hover:bg-gray-100">① Dashboard</a>
+    <a href="#s2" class="border border-gray-400 px-3 py-2 hover:bg-gray-100">② Lista wydatków</a>
+    <a href="#s3" class="border border-gray-400 px-3 py-2 hover:bg-gray-100">③ Dodaj wydatek</a>
+    <a href="#s4" class="border border-gray-400 px-3 py-2 hover:bg-gray-100">④ Statystyki</a>
+    <a href="#s5" class="border border-gray-400 px-3 py-2 hover:bg-gray-100">⑤ Ustawienia</a>
+  </div>
+
+  <!-- Legend -->
+  <div class="mt-8 border border-gray-400 bg-white p-5 max-w-3xl">
+    <div class="frame-label mb-3">Legenda</div>
+    <div class="grid grid-cols-2 md:grid-cols-4 gap-4 text-xs">
+      <div class="flex items-center gap-2"><span class="placeholder-x inline-block w-8 h-8"></span><span>Zdjęcie / obraz</span></div>
+      <div class="flex items-center gap-2"><span class="icon-box">[i]</span><span>Placeholder ikony</span></div>
+      <div class="flex items-center gap-2"><span class="avatar">A</span><span>Avatar / kategoria</span></div>
+      <div class="flex items-center gap-2"><span class="annot-num">1</span><span>Adnotacja</span></div>
+    </div>
+  </div>
+</header>
+
+<main class="max-w-[1700px] mx-auto px-10 pb-32">
+
+<!-- ============================================================
+     EKRAN 1 — DASHBOARD
+============================================================ -->
+<section id="s1" class="screen-block" data-screen-label="01 Dashboard">
+  <div class="mb-6">
+    <div class="frame-label">Ekran 1</div>
+    <h2 class="text-2xl font-semibold mt-1">Dashboard</h2>
+    <p class="text-sm text-gray-700 mt-1 max-w-2xl">Pierwszy ekran po zalogowaniu. Szybki przegląd: balans miesiąca, skróty czasowe, podział na kategorie i ostatnie wydatki.</p>
+  </div>
+
+  <div class="flex flex-wrap gap-12 items-start">
+
+    <!-- ====== MOBILE 375 ====== -->
+    <div>
+      <div class="frame-label mb-2">Mobile · 375px</div>
+      <div class="mob wf relative" style="height: 760px;">
+        <!-- top bar -->
+        <div class="flex items-center justify-between px-4 h-12 wf-line">
+          <div class="wf-soft" style="width:60px; height: 18px;"></div>
+          <div class="text-sm font-medium">Dashboard</div>
+          <div class="avatar">A</div>
+        </div>
+
+        <!-- balance card -->
+        <div class="m-4 wf p-4">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider">Wydano w maju</div>
+          <div class="mt-2 text-3xl font-semibold">2 480,00 zł</div>
+          <div class="mt-1 text-[11px] text-gray-500">budżet 4 000,00 zł</div>
+          <div class="mt-3 h-2 wf-soft relative">
+            <div style="width:62%; height: 100%; background: #999;"></div>
+          </div>
+          <div class="mt-1 flex justify-between text-[10px] text-gray-500"><span>0</span><span>62%</span><span>4 000</span></div>
+        </div>
+
+        <!-- 3 stat cards -->
+        <div class="px-4 grid grid-cols-3 gap-2">
+          <div class="wf p-2">
+            <div class="text-[10px] text-gray-500">Dziś</div>
+            <div class="text-sm font-semibold mt-1">85 zł</div>
+            <div class="text-[10px] mt-1">↑ 12%</div>
+          </div>
+          <div class="wf p-2">
+            <div class="text-[10px] text-gray-500">Tydzień</div>
+            <div class="text-sm font-semibold mt-1">540 zł</div>
+            <div class="text-[10px] mt-1">↓ 4%</div>
+          </div>
+          <div class="wf p-2">
+            <div class="text-[10px] text-gray-500">Miesiąc</div>
+            <div class="text-sm font-semibold mt-1">2 480 zł</div>
+            <div class="text-[10px] mt-1">↑ 8%</div>
+          </div>
+        </div>
+
+        <!-- chart + legend -->
+        <div class="m-4 wf p-3">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider mb-2">Kategorie</div>
+          <div class="flex items-center gap-3">
+            <!-- donut placeholder -->
+            <div style="width:96px; height:96px; border-radius:999px; border: 1px solid #999; background:
+              conic-gradient(#000 0 30%, #999 30% 55%, #ccc 55% 75%, #F0F0F0 75% 90%, #fff 90% 100%);
+              position:relative;">
+              <div style="position:absolute; inset:24px; background:#fff; border:1px solid #999; border-radius:999px;"></div>
+            </div>
+            <div class="flex-1 space-y-1.5 text-[11px]">
+              <div class="flex justify-between"><span>● Jedzenie</span><span>30%</span></div>
+              <div class="flex justify-between"><span>● Transport</span><span>25%</span></div>
+              <div class="flex justify-between"><span>● Rachunki</span><span>20%</span></div>
+              <div class="flex justify-between"><span>● Rozrywka</span><span>15%</span></div>
+              <div class="flex justify-between"><span>● Inne</span><span>10%</span></div>
+            </div>
+          </div>
+        </div>
+
+        <!-- recent list -->
+        <div class="mx-4 wf">
+          <div class="px-3 py-2 wf-line text-[11px] text-gray-500 uppercase tracking-wider">Ostatnie wydatki</div>
+          <ul>
+            <li class="flex items-center gap-3 px-3 py-2 wf-line">
+              <span class="avatar" style="width:24px;height:24px;font-size:10px">J</span>
+              <span class="flex-1 text-xs">Lunch w pracy</span>
+              <span class="text-xs">−24,50 zł</span>
+            </li>
+            <li class="flex items-center gap-3 px-3 py-2 wf-line">
+              <span class="avatar" style="width:24px;height:24px;font-size:10px">T</span>
+              <span class="flex-1 text-xs">Bilet MPK</span>
+              <span class="text-xs">−4,40 zł</span>
+            </li>
+            <li class="flex items-center gap-3 px-3 py-2 wf-line">
+              <span class="avatar" style="width:24px;height:24px;font-size:10px">R</span>
+              <span class="flex-1 text-xs">Prąd — kwiecień</span>
+              <span class="text-xs">−180,00 zł</span>
+            </li>
+            <li class="flex items-center gap-3 px-3 py-2 wf-line">
+              <span class="avatar" style="width:24px;height:24px;font-size:10px">J</span>
+              <span class="flex-1 text-xs">Biedronka</span>
+              <span class="text-xs">−87,30 zł</span>
+            </li>
+            <li class="flex items-center gap-3 px-3 py-2">
+              <span class="avatar" style="width:24px;height:24px;font-size:10px">R</span>
+              <span class="flex-1 text-xs">Kino</span>
+              <span class="text-xs">−45,00 zł</span>
+            </li>
+          </ul>
+        </div>
+
+        <!-- FAB -->
+        <div style="position:absolute; right:16px; bottom:80px; width:52px; height:52px; border-radius:999px; border:1px solid #000; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; font-size:24px; line-height:1;">+</div>
+
+        <!-- bottom nav -->
+        <div style="position:absolute; left:0; right:0; bottom:0; height:56px;" class="wf-line border-t border-gray-400 grid grid-cols-5 bg-white">
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]"><span class="icon-box-sm">D</span>Dashboard</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">L</span>Lista</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]">
+            <span style="width:32px; height:32px; border-radius:999px; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px; line-height:1;">+</span>
+          </div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">S</span>Stat.</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">U</span>Ustaw.</div>
+        </div>
+
+        <!-- annotations -->
+        <span class="annot-num" style="position:absolute; left:-26px; top:14px;">1</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:120px;">2</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:248px;">3</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:360px;">4</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:540px;">5</span>
+        <span class="annot-num" style="position:absolute; right:-26px; bottom:90px;">6</span>
+        <span class="annot-num" style="position:absolute; right:-26px; bottom:24px;">7</span>
+      </div>
+    </div>
+
+    <!-- ====== DESKTOP 1280 ====== -->
+    <div class="desk-wrap">
+      <div class="frame-label mb-2">Desktop · 1280px (skala 62,5%)</div>
+      <div style="height: 500px; overflow: hidden;">
+      <div class="desk wf relative" style="height: 800px;">
+        <!-- topbar -->
+        <div class="flex items-center justify-between px-8 h-16 wf-line">
+          <div class="flex items-center gap-3">
+            <div class="wf-soft" style="width:80px; height:20px;"></div>
+            <div class="text-base">Dashboard</div>
+          </div>
+          <div class="flex items-center gap-3 text-sm text-gray-600">
+            <div class="input" style="width:240px;">Szukaj…</div>
+            <div class="avatar">A</div>
+          </div>
+        </div>
+
+        <div class="flex" style="height: calc(800px - 64px);">
+          <!-- sidebar -->
+          <aside class="w-56 border-r border-gray-400 p-4 space-y-2 text-sm">
+            <div class="frame-label mb-2">Nawigacja</div>
+            <div class="flex items-center gap-2 px-3 py-2" style="background:#F0F0F0; border:1px solid #999;"><span class="icon-box-sm">D</span>Dashboard</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">L</span>Lista wydatków</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">+</span>Dodaj</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">S</span>Statystyki</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">U</span>Ustawienia</div>
+          </aside>
+
+          <!-- content -->
+          <div class="flex-1 p-8 space-y-6">
+            <!-- balance + 3 stats row -->
+            <div class="grid grid-cols-3 gap-6">
+              <div class="wf p-6 col-span-1">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Wydano w maju</div>
+                <div class="mt-3 text-4xl font-semibold">2 480,00 zł</div>
+                <div class="mt-1 text-xs text-gray-500">budżet 4 000,00 zł</div>
+                <div class="mt-4 h-2 wf-soft"><div style="width:62%; height:100%; background:#999;"></div></div>
+                <div class="mt-1 flex justify-between text-[10px] text-gray-500"><span>0</span><span>62%</span><span>4 000</span></div>
+              </div>
+              <div class="wf p-6">
+                <div class="text-xs text-gray-500">Dziś</div>
+                <div class="text-2xl font-semibold mt-2">85,00 zł</div>
+                <div class="text-xs mt-1">↑ 12% vs wczoraj</div>
+              </div>
+              <div class="grid grid-rows-2 gap-6">
+                <div class="wf p-4">
+                  <div class="text-xs text-gray-500">Tydzień</div>
+                  <div class="text-xl font-semibold mt-1">540,00 zł</div>
+                  <div class="text-xs mt-0.5">↓ 4%</div>
+                </div>
+                <div class="wf p-4">
+                  <div class="text-xs text-gray-500">Miesiąc</div>
+                  <div class="text-xl font-semibold mt-1">2 480,00 zł</div>
+                  <div class="text-xs mt-0.5">↑ 8%</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- chart + recents -->
+            <div class="grid grid-cols-2 gap-6">
+              <div class="wf p-6">
+                <div class="text-xs text-gray-500 uppercase tracking-wider mb-4">Kategorie</div>
+                <div class="flex items-center gap-6">
+                  <div style="width:160px; height:160px; border-radius:999px; border:1px solid #999; background: conic-gradient(#000 0 30%, #999 30% 55%, #ccc 55% 75%, #F0F0F0 75% 90%, #fff 90% 100%); position:relative;">
+                    <div style="position:absolute; inset:36px; background:#fff; border:1px solid #999; border-radius:999px; display:flex; align-items:center; justify-content:center; font-size:11px; color:#999;">2 480 zł</div>
+                  </div>
+                  <ul class="flex-1 text-sm space-y-2">
+                    <li class="flex justify-between border-b border-gray-300 pb-1"><span>● Jedzenie</span><span>744 zł · 30%</span></li>
+                    <li class="flex justify-between border-b border-gray-300 pb-1"><span>● Transport</span><span>620 zł · 25%</span></li>
+                    <li class="flex justify-between border-b border-gray-300 pb-1"><span>● Rachunki</span><span>496 zł · 20%</span></li>
+                    <li class="flex justify-between border-b border-gray-300 pb-1"><span>● Rozrywka</span><span>372 zł · 15%</span></li>
+                    <li class="flex justify-between"><span>● Inne</span><span>248 zł · 10%</span></li>
+                  </ul>
+                </div>
+              </div>
+
+              <div class="wf">
+                <div class="px-5 py-3 wf-line flex items-center justify-between">
+                  <div class="text-xs text-gray-500 uppercase tracking-wider">Ostatnie wydatki</div>
+                  <a class="text-xs underline">Zobacz wszystkie</a>
+                </div>
+                <ul>
+                  <li class="flex items-center gap-3 px-5 py-3 wf-line"><span class="avatar">J</span><span class="flex-1 text-sm">Lunch w pracy</span><span class="pill">Jedzenie</span><span class="text-sm w-24 text-right">−24,50 zł</span></li>
+                  <li class="flex items-center gap-3 px-5 py-3 wf-line"><span class="avatar">T</span><span class="flex-1 text-sm">Bilet MPK</span><span class="pill">Transport</span><span class="text-sm w-24 text-right">−4,40 zł</span></li>
+                  <li class="flex items-center gap-3 px-5 py-3 wf-line"><span class="avatar">R</span><span class="flex-1 text-sm">Prąd — kwiecień</span><span class="pill">Rachunki</span><span class="text-sm w-24 text-right">−180,00 zł</span></li>
+                  <li class="flex items-center gap-3 px-5 py-3 wf-line"><span class="avatar">J</span><span class="flex-1 text-sm">Biedronka</span><span class="pill">Jedzenie</span><span class="text-sm w-24 text-right">−87,30 zł</span></li>
+                  <li class="flex items-center gap-3 px-5 py-3"><span class="avatar">R</span><span class="flex-1 text-sm">Kino</span><span class="pill">Rozrywka</span><span class="text-sm w-24 text-right">−45,00 zł</span></li>
+                </ul>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- desktop annotations -->
+        <span class="annot-num" style="position:absolute; left:-26px; top:80px;">A</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:200px;">B</span>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- annotations list -->
+  <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Adnotacje — mobile</div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex gap-3"><span class="annot-num">1</span><div><b>Top bar</b> — logo + tytuł + avatar. <span class="text-gray-600">Tap avatar → ekran 5 (Ustawienia).</span></div></li>
+        <li class="flex gap-3"><span class="annot-num">2</span><div><b>Karta balansu</b> — kwota + budżet + pasek postępu. Stan ostrzegawczy gdy &gt; 90% (pasek ciemny).</div></li>
+        <li class="flex gap-3"><span class="annot-num">3</span><div><b>Skróty czasowe</b> — Dziś / Tydzień / Miesiąc. Tap → filtr listy (ekran 2).</div></li>
+        <li class="flex gap-3"><span class="annot-num">4</span><div><b>Wykres kategorii</b> — donut + legenda 5 pozycji. Tap segmentu → ekran 4 z filtrem kategorii.</div></li>
+        <li class="flex gap-3"><span class="annot-num">5</span><div><b>Lista ostatnich wydatków</b> — 5 wierszy. Tap wiersza → szczegóły wydatku (modal).</div></li>
+        <li class="flex gap-3"><span class="annot-num">6</span><div><b>FAB +</b> — primary action. Stany: default / pressed (ciemniejsze tło). Tap → ekran 3.</div></li>
+        <li class="flex gap-3"><span class="annot-num">7</span><div><b>Bottom nav</b> — 5 pozycji, środkowy „+" wyróżniony. Stany: active (czarny tekst) / inactive (szary).</div></li>
+      </ul>
+    </div>
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Adnotacje — desktop</div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex gap-3"><span class="annot-num">A</span><div><b>Top bar + global search</b> — search dostępny ze wszystkich ekranów. Tap input → focus, podpowiedzi (dropdown).</div></li>
+        <li class="flex gap-3"><span class="annot-num">B</span><div><b>Sidebar</b> — 5 pozycji jak w bottom-nav mobile. Aktywna pozycja: szare tło + border.</div></li>
+        <li class="flex gap-3"><span class="annot-num">·</span><div><b>Layout 3-kolumnowy</b> dla statystyk (balans + Dziś + Tydzień/Miesiąc), 2-kolumnowy dla wykresu i listy.</div></li>
+        <li class="flex gap-3"><span class="annot-num">·</span><div><b>Stany danych</b>: empty (brak wydatków → CTA „Dodaj pierwszy"), loading (skeleton), error (komunikat + retry).</div></li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EKRAN 2 — LISTA WYDATKÓW
+============================================================ -->
+<section id="s2" class="screen-block" data-screen-label="02 Lista wydatkow">
+  <div class="mb-6">
+    <div class="frame-label">Ekran 2</div>
+    <h2 class="text-2xl font-semibold mt-1">Lista wydatków</h2>
+    <p class="text-sm text-gray-700 mt-1 max-w-2xl">Pełna lista, filtrowana i grupowana po dniach.</p>
+  </div>
+
+  <div class="flex flex-wrap gap-12 items-start">
+
+    <!-- MOBILE -->
+    <div>
+      <div class="frame-label mb-2">Mobile · 375px</div>
+      <div class="mob wf relative" style="height: 800px;">
+        <!-- topbar -->
+        <div class="flex items-center justify-between px-4 h-12 wf-line">
+          <div class="text-sm font-medium">Wydatki</div>
+          <span class="icon-box">▽</span>
+        </div>
+        <!-- search -->
+        <div class="px-4 pt-3">
+          <div class="input">Szukaj…</div>
+        </div>
+        <!-- chips -->
+        <div class="px-4 pt-3 flex gap-2 overflow-x-auto">
+          <span class="chip chip-active">Dziś</span>
+          <span class="chip">Tydzień</span>
+          <span class="chip">Miesiąc</span>
+          <span class="chip">Zakres dat</span>
+        </div>
+        <!-- dropdown -->
+        <div class="px-4 pt-3">
+          <div class="input flex justify-between"><span>Kategoria — wszystkie</span><span>▾</span></div>
+        </div>
+
+        <!-- groups -->
+        <div class="mt-4">
+          <div class="px-4 py-2 wf-soft text-xs flex justify-between">
+            <span>Wtorek, 7 maja</span><span>razem 142,80 zł</span>
+          </div>
+          <ul>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">J</span><div class="flex-1"><div class="text-xs">Lunch w pracy</div><span class="pill mt-1">Jedzenie</span></div><div class="text-xs">−24,50 zł</div></li>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">T</span><div class="flex-1"><div class="text-xs">Bilet MPK</div><span class="pill mt-1">Transport</span></div><div class="text-xs">−4,40 zł</div></li>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">J</span><div class="flex-1"><div class="text-xs">Biedronka</div><span class="pill mt-1">Jedzenie</span></div><div class="text-xs">−87,30 zł</div></li>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">R</span><div class="flex-1"><div class="text-xs">Kawa Costa</div><span class="pill mt-1">Rozrywka</span></div><div class="text-xs">−26,60 zł</div></li>
+          </ul>
+
+          <div class="px-4 py-2 wf-soft text-xs flex justify-between">
+            <span>Poniedziałek, 6 maja</span><span>razem 232,40 zł</span>
+          </div>
+          <ul>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">R</span><div class="flex-1"><div class="text-xs">Prąd — kwiecień</div><span class="pill mt-1">Rachunki</span></div><div class="text-xs">−180,00 zł</div></li>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">T</span><div class="flex-1"><div class="text-xs">Paliwo Orlen</div><span class="pill mt-1">Transport</span></div><div class="text-xs">−52,40 zł</div></li>
+          </ul>
+
+          <div class="px-4 py-2 wf-soft text-xs flex justify-between">
+            <span>Niedziela, 5 maja</span><span>razem 95,00 zł</span>
+          </div>
+          <ul>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">R</span><div class="flex-1"><div class="text-xs">Kino</div><span class="pill mt-1">Rozrywka</span></div><div class="text-xs">−45,00 zł</div></li>
+            <li class="flex items-center gap-3 px-4 py-2 wf-line"><span class="avatar" style="width:28px;height:28px;font-size:11px">J</span><div class="flex-1"><div class="text-xs">Restauracja</div><span class="pill mt-1">Jedzenie</span></div><div class="text-xs">−50,00 zł</div></li>
+          </ul>
+        </div>
+
+        <!-- bottom nav -->
+        <div style="position:absolute; left:0; right:0; bottom:0; height:56px;" class="border-t border-gray-400 grid grid-cols-5 bg-white">
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">D</span>Dashboard</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]"><span class="icon-box-sm">L</span>Lista</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]"><span style="width:32px; height:32px; border-radius:999px; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px;">+</span></div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">S</span>Stat.</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">U</span>Ustaw.</div>
+        </div>
+
+        <span class="annot-num" style="position:absolute; left:-26px; top:14px;">1</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:60px;">2</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:108px;">3</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:160px;">4</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:220px;">5</span>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk-wrap">
+      <div class="frame-label mb-2">Desktop · 1280px (skala 62,5%)</div>
+      <div style="height: 500px; overflow: hidden;">
+      <div class="desk wf relative" style="height: 800px;">
+        <!-- topbar -->
+        <div class="flex items-center justify-between px-8 h-16 wf-line">
+          <div class="flex items-center gap-3">
+            <div class="wf-soft" style="width:80px;height:20px;"></div>
+            <div class="text-base">Lista wydatków</div>
+          </div>
+          <div class="flex items-center gap-3"><div class="input" style="width:240px;">Szukaj…</div><div class="avatar">A</div></div>
+        </div>
+        <div class="flex" style="height: calc(800px - 64px);">
+          <aside class="w-56 border-r border-gray-400 p-4 space-y-2 text-sm">
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">D</span>Dashboard</div>
+            <div class="flex items-center gap-2 px-3 py-2" style="background:#F0F0F0; border:1px solid #999;"><span class="icon-box-sm">L</span>Lista wydatków</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">+</span>Dodaj</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">S</span>Statystyki</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">U</span>Ustawienia</div>
+          </aside>
+
+          <div class="flex-1 p-8 space-y-4">
+            <!-- filters row -->
+            <div class="flex flex-wrap items-center gap-3">
+              <div class="input" style="width:280px;">Szukaj…</div>
+              <span class="chip chip-active">Dziś</span>
+              <span class="chip">Tydzień</span>
+              <span class="chip">Miesiąc</span>
+              <span class="chip">Zakres dat</span>
+              <div class="input flex justify-between" style="width:200px;"><span>Kategoria</span><span>▾</span></div>
+              <div class="ml-auto flex gap-2">
+                <button class="btn btn-ghost">Eksport</button>
+                <button class="btn btn-primary">+ Dodaj wydatek</button>
+              </div>
+            </div>
+
+            <!-- table -->
+            <div class="wf">
+              <div class="grid grid-cols-12 px-5 py-2 wf-line wf-soft text-[11px] uppercase tracking-wider text-gray-600">
+                <div class="col-span-1">Dzień</div>
+                <div class="col-span-4">Opis</div>
+                <div class="col-span-2">Kategoria</div>
+                <div class="col-span-2">Data</div>
+                <div class="col-span-2">Notatka</div>
+                <div class="col-span-1 text-right">Kwota</div>
+              </div>
+              <!-- group header -->
+              <div class="px-5 py-2 wf-line wf-soft flex justify-between text-sm"><span>Wtorek, 7 maja</span><span>razem 142,80 zł</span></div>
+              <div class="grid grid-cols-12 items-center px-5 py-3 wf-line text-sm">
+                <div class="col-span-1"><span class="avatar">J</span></div>
+                <div class="col-span-4">Lunch w pracy</div>
+                <div class="col-span-2"><span class="pill">Jedzenie</span></div>
+                <div class="col-span-2 text-gray-600">07.05.2026</div>
+                <div class="col-span-2 text-gray-600">—</div>
+                <div class="col-span-1 text-right">−24,50 zł</div>
+              </div>
+              <div class="grid grid-cols-12 items-center px-5 py-3 wf-line text-sm">
+                <div class="col-span-1"><span class="avatar">T</span></div>
+                <div class="col-span-4">Bilet MPK</div>
+                <div class="col-span-2"><span class="pill">Transport</span></div>
+                <div class="col-span-2 text-gray-600">07.05.2026</div>
+                <div class="col-span-2 text-gray-600">—</div>
+                <div class="col-span-1 text-right">−4,40 zł</div>
+              </div>
+              <div class="grid grid-cols-12 items-center px-5 py-3 wf-line text-sm">
+                <div class="col-span-1"><span class="avatar">J</span></div>
+                <div class="col-span-4">Biedronka — zakupy tygodniowe</div>
+                <div class="col-span-2"><span class="pill">Jedzenie</span></div>
+                <div class="col-span-2 text-gray-600">07.05.2026</div>
+                <div class="col-span-2 text-gray-600">—</div>
+                <div class="col-span-1 text-right">−87,30 zł</div>
+              </div>
+
+              <div class="px-5 py-2 wf-line wf-soft flex justify-between text-sm"><span>Poniedziałek, 6 maja</span><span>razem 232,40 zł</span></div>
+              <div class="grid grid-cols-12 items-center px-5 py-3 wf-line text-sm">
+                <div class="col-span-1"><span class="avatar">R</span></div>
+                <div class="col-span-4">Prąd — kwiecień</div>
+                <div class="col-span-2"><span class="pill">Rachunki</span></div>
+                <div class="col-span-2 text-gray-600">06.05.2026</div>
+                <div class="col-span-2 text-gray-600">PGE faktura 04</div>
+                <div class="col-span-1 text-right">−180,00 zł</div>
+              </div>
+              <div class="grid grid-cols-12 items-center px-5 py-3 wf-line text-sm">
+                <div class="col-span-1"><span class="avatar">T</span></div>
+                <div class="col-span-4">Paliwo Orlen</div>
+                <div class="col-span-2"><span class="pill">Transport</span></div>
+                <div class="col-span-2 text-gray-600">06.05.2026</div>
+                <div class="col-span-2 text-gray-600">—</div>
+                <div class="col-span-1 text-right">−52,40 zł</div>
+              </div>
+
+              <div class="px-5 py-2 wf-soft flex justify-between text-sm"><span>Niedziela, 5 maja</span><span>razem 95,00 zł</span></div>
+            </div>
+
+            <div class="flex justify-between items-center text-xs text-gray-600">
+              <span>Pokazano 5 z 28</span>
+              <div class="flex gap-2"><button class="chip">‹</button><button class="chip chip-active">1</button><button class="chip">2</button><button class="chip">3</button><button class="chip">›</button></div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Adnotacje</div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex gap-3"><span class="annot-num">1</span><div><b>Tytuł + filtr (ikona)</b> — tap → bottom sheet z zaawansowanymi filtrami (kwota od/do, źródło).</div></li>
+        <li class="flex gap-3"><span class="annot-num">2</span><div><b>Search</b> — fuzzy po opisie i notatce. Stany: empty / focus / typing / no-results („Brak wyników").</div></li>
+        <li class="flex gap-3"><span class="annot-num">3</span><div><b>Chips czasowe</b> — exclusive (jeden aktywny). „Zakres dat" → otwiera date-range picker.</div></li>
+        <li class="flex gap-3"><span class="annot-num">4</span><div><b>Dropdown kategorii</b> — multi-select. Domyślnie „wszystkie".</div></li>
+        <li class="flex gap-3"><span class="annot-num">5</span><div><b>Grupowanie po dniach</b> — sticky header z dzienną sumą. Tap wiersza → modal szczegółów (edytuj/usuń).</div></li>
+      </ul>
+    </div>
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Stany</div>
+      <ul class="space-y-3 text-sm">
+        <li><b>Empty</b> — brak wyników filtra: ilustracja-placeholder + „Wyczyść filtry".</li>
+        <li><b>Loading</b> — 5 skeleton-rows.</li>
+        <li><b>Swipe (mobile)</b> — swipe wiersza w lewo: [Edytuj] [Usuń] (czarne tło).</li>
+        <li><b>Multi-select (desktop)</b> — checkbox per wiersz → bulk actions (Eksport CSV, Usuń).</li>
+        <li><b>Error</b> — błąd ładowania: pasek u góry + Retry.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EKRAN 3 — DODAJ WYDATEK
+============================================================ -->
+<section id="s3" class="screen-block" data-screen-label="03 Dodaj wydatek">
+  <div class="mb-6">
+    <div class="frame-label">Ekran 3</div>
+    <h2 class="text-2xl font-semibold mt-1">Dodaj wydatek</h2>
+    <p class="text-sm text-gray-700 mt-1 max-w-2xl">Modal pełnoekranowy na mobile, dialog wyśrodkowany na desktopie.</p>
+  </div>
+
+  <div class="flex flex-wrap gap-12 items-start">
+
+    <!-- MOBILE -->
+    <div>
+      <div class="frame-label mb-2">Mobile · 375px</div>
+      <div class="mob wf relative" style="height: 760px;">
+        <!-- header -->
+        <div class="flex items-center justify-between px-4 h-12 wf-line">
+          <div class="text-sm font-medium">Dodaj wydatek</div>
+          <span class="icon-box">×</span>
+        </div>
+        <!-- amount -->
+        <div class="px-4 pt-5">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider">Kwota</div>
+          <div class="mt-2 wf p-4 flex items-baseline gap-2">
+            <span class="text-3xl font-semibold">0,00</span>
+            <span class="text-sm text-gray-500 ml-auto">zł</span>
+          </div>
+        </div>
+        <!-- categories grid -->
+        <div class="px-4 pt-5">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider mb-2">Kategoria</div>
+          <div class="grid grid-cols-4 gap-2">
+            <div class="wf p-2 text-[11px] text-center" style="background:#F0F0F0;border-color:#000;">Jedzenie</div>
+            <div class="wf p-2 text-[11px] text-center">Transport</div>
+            <div class="wf p-2 text-[11px] text-center">Rachunki</div>
+            <div class="wf p-2 text-[11px] text-center">Rozrywka</div>
+            <div class="wf p-2 text-[11px] text-center">Zdrowie</div>
+            <div class="wf p-2 text-[11px] text-center">Dom</div>
+            <div class="wf p-2 text-[11px] text-center">Inne</div>
+            <div class="wf p-2 text-[11px] text-center wf-dashed">+ nowa</div>
+          </div>
+        </div>
+        <!-- date -->
+        <div class="px-4 pt-5">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider mb-2">Data</div>
+          <div class="input flex justify-between"><span>07.05.2026</span><span class="icon-box-sm">▢</span></div>
+        </div>
+        <!-- description -->
+        <div class="px-4 pt-3">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider mb-2">Opis</div>
+          <div class="input">np. Lunch w pracy</div>
+        </div>
+        <!-- note -->
+        <div class="px-4 pt-3">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider mb-2">Notatka</div>
+          <div class="wf p-3 text-xs text-gray-500" style="height: 80px;">Opcjonalna notatka…</div>
+        </div>
+        <!-- buttons -->
+        <div class="absolute left-0 right-0 bottom-0 p-4 grid grid-cols-2 gap-3 bg-white border-t border-gray-400">
+          <button class="btn btn-ghost">Anuluj</button>
+          <button class="btn btn-primary">Zapisz</button>
+        </div>
+
+        <span class="annot-num" style="position:absolute; left:-26px; top:14px;">1</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:80px;">2</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:200px;">3</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:380px;">4</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:460px;">5</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:550px;">6</span>
+        <span class="annot-num" style="position:absolute; left:-26px; bottom:30px;">7</span>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk-wrap">
+      <div class="frame-label mb-2">Desktop · 1280px (modal nad listą)</div>
+      <div style="height: 500px; overflow: hidden;">
+      <div class="desk wf relative" style="height: 800px; background:#F0F0F0;">
+        <!-- backdrop = wf-soft -->
+        <!-- modal centered -->
+        <div style="position:absolute; left: 50%; top: 50%; transform: translate(-50%,-50%); width: 720px;" class="wf bg-white">
+          <div class="flex items-center justify-between px-6 h-14 wf-line">
+            <div class="text-base font-medium">Dodaj wydatek</div>
+            <span class="icon-box">×</span>
+          </div>
+          <div class="p-6 grid grid-cols-2 gap-6">
+            <div class="col-span-2">
+              <div class="text-xs text-gray-500 uppercase tracking-wider">Kwota</div>
+              <div class="mt-2 wf p-4 flex items-baseline gap-2">
+                <span class="text-4xl font-semibold">0,00</span>
+                <span class="text-sm text-gray-500 ml-auto">zł</span>
+              </div>
+            </div>
+            <div class="col-span-2">
+              <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Kategoria</div>
+              <div class="grid grid-cols-4 gap-2">
+                <div class="wf p-3 text-sm text-center" style="background:#F0F0F0;border-color:#000;">Jedzenie</div>
+                <div class="wf p-3 text-sm text-center">Transport</div>
+                <div class="wf p-3 text-sm text-center">Rachunki</div>
+                <div class="wf p-3 text-sm text-center">Rozrywka</div>
+                <div class="wf p-3 text-sm text-center">Zdrowie</div>
+                <div class="wf p-3 text-sm text-center">Dom</div>
+                <div class="wf p-3 text-sm text-center">Inne</div>
+                <div class="wf p-3 text-sm text-center wf-dashed">+ nowa</div>
+              </div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Data</div>
+              <div class="input flex justify-between"><span>07.05.2026</span><span class="icon-box-sm">▢</span></div>
+            </div>
+            <div>
+              <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Opis</div>
+              <div class="input">np. Lunch w pracy</div>
+            </div>
+            <div class="col-span-2">
+              <div class="text-xs text-gray-500 uppercase tracking-wider mb-2">Notatka</div>
+              <div class="wf p-3 text-sm text-gray-500" style="height: 96px;">Opcjonalna notatka…</div>
+            </div>
+          </div>
+          <div class="flex justify-end gap-3 px-6 py-4 border-t border-gray-400">
+            <button class="btn btn-ghost">Anuluj</button>
+            <button class="btn btn-primary">Zapisz</button>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Adnotacje</div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex gap-3"><span class="annot-num">1</span><div><b>Header</b> — tytuł + close (X). Tap X → potwierdzenie odrzucenia jeśli formularz dotknięty.</div></li>
+        <li class="flex gap-3"><span class="annot-num">2</span><div><b>Pole kwota (focus)</b> — duży display, otwiera numpad (mobile) / input (desktop). Walidacja: &gt; 0.</div></li>
+        <li class="flex gap-3"><span class="annot-num">3</span><div><b>Siatka kategorii 4×2</b> — tap = wybór (czarna ramka). „+ nowa" → ekran 5 (zarządzanie kategoriami).</div></li>
+        <li class="flex gap-3"><span class="annot-num">4</span><div><b>Data</b> — tap → date picker. Domyślnie dzisiaj.</div></li>
+        <li class="flex gap-3"><span class="annot-num">5</span><div><b>Opis</b> — text input z podpowiedziami (autocomplete z historii).</div></li>
+        <li class="flex gap-3"><span class="annot-num">6</span><div><b>Notatka</b> — textarea, opcjonalna.</div></li>
+        <li class="flex gap-3"><span class="annot-num">7</span><div><b>CTA</b> — „Zapisz" disabled gdy kwota = 0 lub kategoria niewybrana. Po zapisie → toast „Dodano" + powrót do poprzedniego ekranu.</div></li>
+      </ul>
+    </div>
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Stany formularza</div>
+      <ul class="space-y-3 text-sm">
+        <li><b>Default</b> — wszystkie pola puste, przycisk Zapisz disabled.</li>
+        <li><b>Filling</b> — przy każdej zmianie autosave do localStorage (przywrócenie po zamknięciu).</li>
+        <li><b>Validation error</b> — pole z czerwonym borderem? <i>(W lo-fi: pogrubiony border + 1-line message pod polem)</i>.</li>
+        <li><b>Saving</b> — Zapisz pokazuje spinner.</li>
+        <li><b>Success</b> — toast 2s, modal zamyka się.</li>
+        <li><b>Error API</b> — banner u góry modala + Retry.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EKRAN 4 — STATYSTYKI
+============================================================ -->
+<section id="s4" class="screen-block" data-screen-label="04 Statystyki">
+  <div class="mb-6">
+    <div class="frame-label">Ekran 4</div>
+    <h2 class="text-2xl font-semibold mt-1">Statystyki</h2>
+    <p class="text-sm text-gray-700 mt-1 max-w-2xl">Trend wydatków, top kategorie, porównanie z poprzednim okresem.</p>
+  </div>
+
+  <div class="flex flex-wrap gap-12 items-start">
+
+    <!-- MOBILE -->
+    <div>
+      <div class="frame-label mb-2">Mobile · 375px</div>
+      <div class="mob wf relative" style="height: 760px;">
+        <!-- topbar -->
+        <div class="flex items-center justify-between px-4 h-12 wf-line">
+          <div class="text-sm font-medium">Statystyki</div>
+          <span class="icon-box">⤴</span>
+        </div>
+        <!-- segmented -->
+        <div class="px-4 pt-4">
+          <div class="grid grid-cols-3 wf">
+            <div class="text-center text-xs py-2">Tydzień</div>
+            <div class="text-center text-xs py-2" style="background:#000;color:#fff;">Miesiąc</div>
+            <div class="text-center text-xs py-2">Rok</div>
+          </div>
+        </div>
+
+        <!-- bar chart card -->
+        <div class="m-4 wf p-3">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider mb-2">Wydatki — maj</div>
+          <div class="flex items-end gap-1.5 h-32 wf-line pb-1">
+            <!-- bars -->
+            <div style="flex:1;background:#999;height:40%"></div>
+            <div style="flex:1;background:#999;height:65%"></div>
+            <div style="flex:1;background:#999;height:30%"></div>
+            <div style="flex:1;background:#999;height:80%"></div>
+            <div style="flex:1;background:#999;height:55%"></div>
+            <div style="flex:1;background:#999;height:90%"></div>
+            <div style="flex:1;background:#999;height:45%"></div>
+            <div style="flex:1;background:#999;height:70%"></div>
+            <div style="flex:1;background:#999;height:35%"></div>
+            <div style="flex:1;background:#000;height:60%"></div>
+            <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:25%"></div>
+            <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:50%"></div>
+          </div>
+          <div class="flex justify-between mt-1 text-[9px] text-gray-500"><span>1</span><span>7</span><span>14</span><span>21</span><span>28</span></div>
+        </div>
+
+        <!-- top categories -->
+        <div class="m-4 wf">
+          <div class="px-3 py-2 wf-line text-[11px] text-gray-500 uppercase tracking-wider">Top kategorie</div>
+          <div class="px-3 py-3 wf-line">
+            <div class="flex justify-between text-xs mb-1"><span>Jedzenie</span><span>744 zł</span></div>
+            <div class="h-1.5 wf-soft"><div style="width:90%;height:100%;background:#000;"></div></div>
+          </div>
+          <div class="px-3 py-3 wf-line">
+            <div class="flex justify-between text-xs mb-1"><span>Transport</span><span>620 zł</span></div>
+            <div class="h-1.5 wf-soft"><div style="width:75%;height:100%;background:#999;"></div></div>
+          </div>
+          <div class="px-3 py-3">
+            <div class="flex justify-between text-xs mb-1"><span>Rachunki</span><span>496 zł</span></div>
+            <div class="h-1.5 wf-soft"><div style="width:60%;height:100%;background:#999;"></div></div>
+          </div>
+        </div>
+
+        <!-- compare card -->
+        <div class="m-4 wf p-4">
+          <div class="text-[11px] text-gray-500 uppercase tracking-wider">Vs poprzedni miesiąc</div>
+          <div class="flex items-baseline justify-between mt-2">
+            <div class="text-2xl font-semibold">+340 zł</div>
+            <div class="text-xs">↑ 15,9%</div>
+          </div>
+          <div class="text-[11px] text-gray-500 mt-1">2 480 zł (maj) vs 2 140 zł (kwiecień)</div>
+        </div>
+
+        <!-- bottom nav -->
+        <div style="position:absolute; left:0; right:0; bottom:0; height:56px;" class="border-t border-gray-400 grid grid-cols-5 bg-white">
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">D</span>Dashboard</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">L</span>Lista</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]"><span style="width:32px; height:32px; border-radius:999px; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px;">+</span></div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]"><span class="icon-box-sm">S</span>Stat.</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">U</span>Ustaw.</div>
+        </div>
+
+        <span class="annot-num" style="position:absolute; left:-26px; top:64px;">1</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:130px;">2</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:340px;">3</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:570px;">4</span>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk-wrap">
+      <div class="frame-label mb-2">Desktop · 1280px (skala 62,5%)</div>
+      <div style="height: 500px; overflow: hidden;">
+      <div class="desk wf relative" style="height: 800px;">
+        <div class="flex items-center justify-between px-8 h-16 wf-line">
+          <div class="flex items-center gap-3">
+            <div class="wf-soft" style="width:80px;height:20px;"></div>
+            <div class="text-base">Statystyki</div>
+          </div>
+          <div class="flex items-center gap-3"><div class="input" style="width:240px;">Szukaj…</div><div class="avatar">A</div></div>
+        </div>
+        <div class="flex" style="height: calc(800px - 64px);">
+          <aside class="w-56 border-r border-gray-400 p-4 space-y-2 text-sm">
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">D</span>Dashboard</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">L</span>Lista wydatków</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">+</span>Dodaj</div>
+            <div class="flex items-center gap-2 px-3 py-2" style="background:#F0F0F0; border:1px solid #999;"><span class="icon-box-sm">S</span>Statystyki</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">U</span>Ustawienia</div>
+          </aside>
+
+          <div class="flex-1 p-8 space-y-6">
+            <!-- segmented + export row -->
+            <div class="flex items-center justify-between">
+              <div class="grid grid-cols-3 wf" style="width:360px;">
+                <div class="text-center text-sm py-2">Tydzień</div>
+                <div class="text-center text-sm py-2" style="background:#000;color:#fff;">Miesiąc</div>
+                <div class="text-center text-sm py-2">Rok</div>
+              </div>
+              <div class="flex gap-2">
+                <button class="btn btn-ghost">‹ Poprzedni</button>
+                <div class="input" style="width:160px; justify-content:center;">Maj 2026</div>
+                <button class="btn btn-ghost">Następny ›</button>
+              </div>
+            </div>
+
+            <!-- big bar chart -->
+            <div class="wf p-6">
+              <div class="flex justify-between items-center mb-4">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Wydatki — maj 2026</div>
+                <div class="text-xs text-gray-500">suma: 2 480 zł</div>
+              </div>
+              <div class="flex items-end gap-1 h-56 wf-line pb-2">
+                <!-- 31 bars -->
+                <div style="flex:1;background:#999;height:30%"></div>
+                <div style="flex:1;background:#999;height:55%"></div>
+                <div style="flex:1;background:#999;height:40%"></div>
+                <div style="flex:1;background:#999;height:70%"></div>
+                <div style="flex:1;background:#999;height:25%"></div>
+                <div style="flex:1;background:#999;height:65%"></div>
+                <div style="flex:1;background:#999;height:80%"></div>
+                <div style="flex:1;background:#999;height:35%"></div>
+                <div style="flex:1;background:#999;height:60%"></div>
+                <div style="flex:1;background:#999;height:45%"></div>
+                <div style="flex:1;background:#999;height:90%"></div>
+                <div style="flex:1;background:#999;height:50%"></div>
+                <div style="flex:1;background:#999;height:30%"></div>
+                <div style="flex:1;background:#999;height:75%"></div>
+                <div style="flex:1;background:#999;height:55%"></div>
+                <div style="flex:1;background:#999;height:40%"></div>
+                <div style="flex:1;background:#999;height:65%"></div>
+                <div style="flex:1;background:#999;height:25%"></div>
+                <div style="flex:1;background:#999;height:80%"></div>
+                <div style="flex:1;background:#999;height:50%"></div>
+                <div style="flex:1;background:#999;height:35%"></div>
+                <div style="flex:1;background:#999;height:70%"></div>
+                <div style="flex:1;background:#000;height:60%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:25%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:45%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:30%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:55%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:35%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:50%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:25%"></div>
+                <div style="flex:1;background:#F0F0F0;border:1px solid #999;height:40%"></div>
+              </div>
+              <div class="flex justify-between mt-2 text-[10px] text-gray-500">
+                <span>1</span><span>5</span><span>10</span><span>15</span><span>20</span><span>25</span><span>31</span>
+              </div>
+            </div>
+
+            <div class="grid grid-cols-2 gap-6">
+              <div class="wf">
+                <div class="px-5 py-3 wf-line text-xs text-gray-500 uppercase tracking-wider">Top kategorie</div>
+                <div class="px-5 py-4 wf-line">
+                  <div class="flex justify-between text-sm mb-2"><span>Jedzenie</span><span>744 zł · 30%</span></div>
+                  <div class="h-2 wf-soft"><div style="width:90%;height:100%;background:#000;"></div></div>
+                </div>
+                <div class="px-5 py-4 wf-line">
+                  <div class="flex justify-between text-sm mb-2"><span>Transport</span><span>620 zł · 25%</span></div>
+                  <div class="h-2 wf-soft"><div style="width:75%;height:100%;background:#999;"></div></div>
+                </div>
+                <div class="px-5 py-4">
+                  <div class="flex justify-between text-sm mb-2"><span>Rachunki</span><span>496 zł · 20%</span></div>
+                  <div class="h-2 wf-soft"><div style="width:60%;height:100%;background:#999;"></div></div>
+                </div>
+              </div>
+
+              <div class="wf p-6">
+                <div class="text-xs text-gray-500 uppercase tracking-wider">Vs poprzedni miesiąc</div>
+                <div class="flex items-baseline justify-between mt-3">
+                  <div class="text-4xl font-semibold">+340 zł</div>
+                  <div class="text-sm">↑ 15,9%</div>
+                </div>
+                <div class="text-xs text-gray-500 mt-2">2 480 zł (maj) vs 2 140 zł (kwiecień)</div>
+                <div class="mt-4 grid grid-cols-2 gap-3 text-xs">
+                  <div class="wf p-3"><div class="text-gray-500">Średnia dzienna</div><div class="text-base font-semibold mt-1">82,67 zł</div></div>
+                  <div class="wf p-3"><div class="text-gray-500">Największy wydatek</div><div class="text-base font-semibold mt-1">180,00 zł</div></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Adnotacje</div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex gap-3"><span class="annot-num">1</span><div><b>Segmented control</b> — Tydzień / Miesiąc / Rok. Exclusive. Zmiana → reload danych z animacją.</div></li>
+        <li class="flex gap-3"><span class="annot-num">2</span><div><b>Wykres słupkowy</b> — słupki dni miesiąca. Słupki przyszłe = puste/dashed. Tap słupka → tooltip z kwotą.</div></li>
+        <li class="flex gap-3"><span class="annot-num">3</span><div><b>Top kategorie</b> — pasek postępu = % wydatków w okresie. Tap → ekran 2 z filtrem kategorii.</div></li>
+        <li class="flex gap-3"><span class="annot-num">4</span><div><b>Karta porównania</b> — różnica kwoty + procent. ↑ = więcej (negatyw), ↓ = mniej (pozytyw).</div></li>
+      </ul>
+    </div>
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Stany</div>
+      <ul class="space-y-3 text-sm">
+        <li><b>Empty (rok)</b> — brak danych: szare słupki + „Brak wydatków w tym okresie".</li>
+        <li><b>Loading</b> — skeleton chart z animacją.</li>
+        <li><b>Hover na słupku (desktop)</b> — tooltip z dniem i sumą.</li>
+        <li><b>Drill-down</b> — klik dnia → ekran 2 z filtrem dnia.</li>
+        <li><b>Eksport</b> — z desktop top-right: PDF / CSV.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     EKRAN 5 — USTAWIENIA
+============================================================ -->
+<section id="s5" class="screen-block" data-screen-label="05 Ustawienia">
+  <div class="mb-6">
+    <div class="frame-label">Ekran 5</div>
+    <h2 class="text-2xl font-semibold mt-1">Ustawienia</h2>
+    <p class="text-sm text-gray-700 mt-1 max-w-2xl">Lista sekcji konfiguracji. Każdy wiersz to kontrola w prawym slocie.</p>
+  </div>
+
+  <div class="flex flex-wrap gap-12 items-start">
+
+    <!-- MOBILE -->
+    <div>
+      <div class="frame-label mb-2">Mobile · 375px</div>
+      <div class="mob wf relative" style="height: 760px;">
+        <!-- topbar -->
+        <div class="flex items-center justify-between px-4 h-12 wf-line">
+          <div class="text-sm font-medium">Ustawienia</div>
+          <div class="avatar" style="width:28px;height:28px;font-size:11px;">A</div>
+        </div>
+
+        <!-- profile preview -->
+        <div class="m-4 wf p-3 flex items-center gap-3">
+          <div class="avatar" style="width:40px;height:40px;">A</div>
+          <div class="flex-1">
+            <div class="text-sm font-medium">Anna Kowalska</div>
+            <div class="text-[11px] text-gray-500"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="f1909f9f90b19489909c819d94df929e9c">[email&#160;protected]</a></div>
+          </div>
+          <span class="icon-box-sm">›</span>
+        </div>
+
+        <!-- settings list -->
+        <div class="mx-4 wf">
+          <div class="flex items-center px-4 py-3 wf-line">
+            <div class="flex-1 text-sm">Kategorie</div>
+            <div class="text-xs text-gray-500 mr-2">7 kategorii</div>
+            <span>›</span>
+          </div>
+          <div class="flex items-center px-4 py-3 wf-line">
+            <div class="flex-1 text-sm">Budżet miesięczny</div>
+            <div class="input" style="width:120px;height:30px;">4 000,00 zł</div>
+          </div>
+          <div class="flex items-center px-4 py-3 wf-line">
+            <div class="flex-1 text-sm">Waluta</div>
+            <div class="input flex justify-between" style="width:100px;height:30px;"><span>PLN</span><span>▾</span></div>
+          </div>
+          <div class="flex items-center px-4 py-3 wf-line">
+            <div class="flex-1 text-sm">Dark mode</div>
+            <!-- toggle off -->
+            <div style="width:36px;height:20px;border:1px solid #999;border-radius:999px;background:#fff;position:relative;">
+              <div style="position:absolute;left:1px;top:1px;width:16px;height:16px;border-radius:999px;background:#999;"></div>
+            </div>
+          </div>
+          <div class="flex items-center px-4 py-3 wf-line">
+            <div class="flex-1 text-sm">Powiadomienia</div>
+            <div style="width:36px;height:20px;border:1px solid #000;border-radius:999px;background:#000;position:relative;">
+              <div style="position:absolute;right:1px;top:1px;width:16px;height:16px;border-radius:999px;background:#fff;"></div>
+            </div>
+          </div>
+          <div class="flex items-center px-4 py-3 wf-line">
+            <div class="flex-1 text-sm">Eksport CSV</div>
+            <button class="btn btn-ghost" style="padding:4px 10px; font-size:11px;">Eksportuj</button>
+          </div>
+          <div class="flex items-center px-4 py-3">
+            <div class="flex-1 text-sm">Wyloguj</div>
+            <span>›</span>
+          </div>
+        </div>
+
+        <div class="mx-4 mt-3 text-[10px] text-gray-500">Wersja 0.1.0 · build 2026.05.07</div>
+
+        <!-- bottom nav -->
+        <div style="position:absolute; left:0; right:0; bottom:0; height:56px;" class="border-t border-gray-400 grid grid-cols-5 bg-white">
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">D</span>Dashboard</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">L</span>Lista</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]"><span style="width:32px; height:32px; border-radius:999px; background:#000; color:#fff; display:flex; align-items:center; justify-content:center; font-size:18px;">+</span></div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px] text-gray-500"><span class="icon-box-sm">S</span>Stat.</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[9px]"><span class="icon-box-sm">U</span>Ustaw.</div>
+        </div>
+
+        <span class="annot-num" style="position:absolute; left:-26px; top:60px;">1</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:152px;">2</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:200px;">3</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:248px;">4</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:296px;">5</span>
+        <span class="annot-num" style="position:absolute; left:-26px; top:392px;">6</span>
+      </div>
+    </div>
+
+    <!-- DESKTOP -->
+    <div class="desk-wrap">
+      <div class="frame-label mb-2">Desktop · 1280px (skala 62,5%)</div>
+      <div style="height: 500px; overflow: hidden;">
+      <div class="desk wf relative" style="height: 800px;">
+        <div class="flex items-center justify-between px-8 h-16 wf-line">
+          <div class="flex items-center gap-3">
+            <div class="wf-soft" style="width:80px;height:20px;"></div>
+            <div class="text-base">Ustawienia</div>
+          </div>
+          <div class="flex items-center gap-3"><div class="input" style="width:240px;">Szukaj…</div><div class="avatar">A</div></div>
+        </div>
+        <div class="flex" style="height: calc(800px - 64px);">
+          <aside class="w-56 border-r border-gray-400 p-4 space-y-2 text-sm">
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">D</span>Dashboard</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">L</span>Lista wydatków</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">+</span>Dodaj</div>
+            <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">S</span>Statystyki</div>
+            <div class="flex items-center gap-2 px-3 py-2" style="background:#F0F0F0; border:1px solid #999;"><span class="icon-box-sm">U</span>Ustawienia</div>
+          </aside>
+
+          <div class="flex-1 p-8">
+            <!-- two column: secondary nav + content -->
+            <div class="grid grid-cols-12 gap-8">
+              <!-- secondary nav -->
+              <aside class="col-span-3 wf p-3 text-sm self-start">
+                <div class="px-2 py-2" style="background:#F0F0F0;border:1px solid #999;">Konto</div>
+                <div class="px-2 py-2 text-gray-700">Kategorie</div>
+                <div class="px-2 py-2 text-gray-700">Budżet</div>
+                <div class="px-2 py-2 text-gray-700">Wygląd</div>
+                <div class="px-2 py-2 text-gray-700">Powiadomienia</div>
+                <div class="px-2 py-2 text-gray-700">Dane i prywatność</div>
+              </aside>
+
+              <div class="col-span-9 space-y-4">
+                <div class="wf p-6 flex items-center gap-4">
+                  <div class="avatar" style="width:56px;height:56px;font-size:18px;">A</div>
+                  <div class="flex-1">
+                    <div class="text-base font-medium">Anna Kowalska</div>
+                    <div class="text-xs text-gray-500"><a href="/cdn-cgi/l/email-protection" class="__cf_email__" data-cfemail="4829262629082d30292538242d662b2725">[email&#160;protected]</a></div>
+                  </div>
+                  <button class="btn btn-ghost">Edytuj profil</button>
+                </div>
+
+                <div class="wf">
+                  <div class="px-6 py-4 wf-line flex items-center">
+                    <div class="flex-1">
+                      <div class="text-sm">Kategorie</div>
+                      <div class="text-xs text-gray-500">7 kategorii · ostatnia zmiana 02.05</div>
+                    </div>
+                    <button class="btn btn-ghost">Zarządzaj</button>
+                  </div>
+                  <div class="px-6 py-4 wf-line flex items-center">
+                    <div class="flex-1">
+                      <div class="text-sm">Budżet miesięczny</div>
+                      <div class="text-xs text-gray-500">limit ostrzeżenia przy 90%</div>
+                    </div>
+                    <div class="input" style="width:160px;">4 000,00 zł</div>
+                  </div>
+                  <div class="px-6 py-4 wf-line flex items-center">
+                    <div class="flex-1">
+                      <div class="text-sm">Waluta</div>
+                      <div class="text-xs text-gray-500">używana w całej aplikacji</div>
+                    </div>
+                    <div class="input flex justify-between" style="width:160px;"><span>PLN — Złoty</span><span>▾</span></div>
+                  </div>
+                  <div class="px-6 py-4 wf-line flex items-center">
+                    <div class="flex-1">
+                      <div class="text-sm">Dark mode</div>
+                      <div class="text-xs text-gray-500">zsynchronizuj z systemem</div>
+                    </div>
+                    <div style="width:44px;height:24px;border:1px solid #999;border-radius:999px;background:#fff;position:relative;">
+                      <div style="position:absolute;left:1px;top:1px;width:20px;height:20px;border-radius:999px;background:#999;"></div>
+                    </div>
+                  </div>
+                  <div class="px-6 py-4 flex items-center">
+                    <div class="flex-1">
+                      <div class="text-sm">Eksport CSV</div>
+                      <div class="text-xs text-gray-500">wyeksportuj wszystkie wydatki</div>
+                    </div>
+                    <button class="btn btn-primary">Eksportuj</button>
+                  </div>
+                </div>
+
+                <div class="text-[11px] text-gray-500">Wersja 0.1.0 · build 2026.05.07</div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="mt-10 grid grid-cols-1 lg:grid-cols-2 gap-6 max-w-5xl">
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Adnotacje</div>
+      <ul class="space-y-3 text-sm">
+        <li class="flex gap-3"><span class="annot-num">1</span><div><b>Profile card</b> — tap → edycja profilu (osobny ekran).</div></li>
+        <li class="flex gap-3"><span class="annot-num">2</span><div><b>Kategorie</b> — wiersz nawigacyjny ze strzałką → ekran zarządzania (CRUD).</div></li>
+        <li class="flex gap-3"><span class="annot-num">3</span><div><b>Budżet miesięczny</b> — inline edit kwoty. Walidacja: liczba &gt; 0. Zmiana → ostrzeżenie na Dashboard.</div></li>
+        <li class="flex gap-3"><span class="annot-num">4</span><div><b>Waluta</b> — select. Zmiana → modal potwierdzenia (przelicznik historyczny vs. tylko nowe).</div></li>
+        <li class="flex gap-3"><span class="annot-num">5</span><div><b>Dark mode</b> — toggle. Stany: off / on / system.</div></li>
+        <li class="flex gap-3"><span class="annot-num">6</span><div><b>Eksport CSV</b> — primary button. Stany: idle / loading / done (toast „Plik gotowy").</div></li>
+      </ul>
+    </div>
+    <div class="border border-gray-400 bg-white p-5">
+      <div class="frame-label mb-3">Wzór wiersza</div>
+      <ul class="space-y-3 text-sm">
+        <li>Każdy wiersz: <b>label + meta</b> (lewy slot) + <b>kontrola</b> (prawy slot) + dolny border <span class="mono">1px solid #999</span>.</li>
+        <li>Kontrole: <i>›</i> (nav), <i>input</i>, <i>select</i>, <i>toggle</i>, <i>button</i>.</li>
+        <li>Stany hover/focus na desktopie: jasnoszare tło wiersza.</li>
+        <li>Disabled: szary tekst + brak interakcji.</li>
+        <li>Error inline: pasek pod kontrolą z opisem błędu.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     NAWIGACJA — appendix
+============================================================ -->
+<section class="screen-block">
+  <div class="mb-6">
+    <div class="frame-label">Appendix</div>
+    <h2 class="text-2xl font-semibold mt-1">Nawigacja — wzory</h2>
+  </div>
+
+  <div class="flex flex-wrap gap-12 items-start">
+    <div>
+      <div class="frame-label mb-2">Bottom nav · mobile (375px)</div>
+      <div class="mob wf relative" style="height:80px;">
+        <div class="grid grid-cols-5 h-full">
+          <div class="flex flex-col items-center justify-center gap-1 text-[10px]"><span class="icon-box-sm">D</span>Dashboard</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[10px] text-gray-500"><span class="icon-box-sm">L</span>Lista</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[10px]"><span style="width:40px;height:40px;border-radius:999px;background:#000;color:#fff;display:flex;align-items:center;justify-content:center;font-size:22px;">+</span></div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[10px] text-gray-500"><span class="icon-box-sm">S</span>Stat.</div>
+          <div class="flex flex-col items-center justify-center gap-1 text-[10px] text-gray-500"><span class="icon-box-sm">U</span>Ustaw.</div>
+        </div>
+      </div>
+      <div class="mt-3 text-xs text-gray-700 max-w-[375px]">Środkowa pozycja „+" jest wyróżniona (kółko, czarne tło). Tap = otwórz ekran 3 (modal). Pozostałe = przełączanie zakładek.</div>
+    </div>
+
+    <div>
+      <div class="frame-label mb-2">Sidebar · desktop (240px)</div>
+      <div class="wf p-4 space-y-2 text-sm bg-white" style="width:240px; height:340px;">
+        <div class="flex items-center gap-2 px-3 py-2" style="background:#F0F0F0;border:1px solid #999;"><span class="icon-box-sm">D</span>Dashboard</div>
+        <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">L</span>Lista wydatków</div>
+        <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">+</span>Dodaj</div>
+        <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">S</span>Statystyki</div>
+        <div class="flex items-center gap-2 px-3 py-2 text-gray-700"><span class="icon-box-sm">U</span>Ustawienia</div>
+      </div>
+      <div class="mt-3 text-xs text-gray-700" style="max-width:240px;">Aktywna pozycja: szare tło + 1px border. Hover (desktop): jasnoszare tło. „Dodaj" otwiera modal nad bieżącym ekranem (nie zmienia route).</div>
+    </div>
+  </div>
+</section>
+
+<!-- ============================================================
+     FOOTER NOTES
+============================================================ -->
+<section class="screen-block">
+  <div class="mb-6">
+    <div class="frame-label">Notatki</div>
+    <h2 class="text-2xl font-semibold mt-1">Następne kroki</h2>
+  </div>
+  <ol class="list-decimal pl-5 space-y-2 text-sm max-w-3xl">
+    <li>Zatwierdzić strukturę i przepływy → wskazać 1–2 ekrany do iteracji.</li>
+    <li>Zdefiniować edge cases: pierwszy login (empty), przekroczenie budżetu, offline.</li>
+    <li>Przejść z lo-fi na hi-fi: typografia, ikony, paleta kolorów, przykłady ilustracji.</li>
+    <li>Zaprojektować mikro-interakcje (np. animacja paska postępu, toast po zapisie).</li>
+    <li>Specyfikacja komponentów (button, input, chip, list-row, card) jako mini design-system.</li>
+  </ol>
+</section>
+
+</main>
+
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script></body>
+</html>

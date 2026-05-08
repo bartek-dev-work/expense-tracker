@@ -1,0 +1,2 @@
+- Do not add any comments to code
+- `any`, `unknown` or similar types are prohibited, EVERYTHING should be typed correctly
