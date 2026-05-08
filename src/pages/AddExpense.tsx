@@ -3,8 +3,7 @@ import { useForm } from 'react-hook-form';
 import { zodResolver } from '@hookform/resolvers/zod';
 import { useNavigate, useParams } from 'react-router-dom';
 import { z } from 'zod';
-import { Card } from '@/components/ui/Card';
-import { PageHeader } from '@/components/ui/PageHeader';
+import { Modal } from '@/components/ui/Modal';
 import { CATEGORIES } from '@/lib/categories';
 import { todayIso } from '@/lib/format';
 import { useExpensesStore } from '@/store/expenses';
@@ -71,6 +70,11 @@ export function AddExpense(): JSX.Element {
 
   const selectedCategory = watch('category');
 
+  const close = (): void => {
+    if (window.history.length > 1) navigate(-1);
+    else navigate('/expenses', { replace: true });
+  };
+
   const onSubmit = handleSubmit(async (values) => {
     const payload = {
       amount: Number(values.amount),
@@ -87,125 +91,176 @@ export function AddExpense(): JSX.Element {
         await add(payload);
         push('Dodano wydatek');
       }
-      navigate('/expenses');
+      close();
     } catch {
       push('Nie udało się zapisać', 'error');
     }
   });
 
   return (
-    <>
-      <PageHeader
-        eyebrow="03 · Dodaj"
-        title={editing ? 'Edytuj wydatek' : 'Nowy wydatek'}
-        subtitle="Wypełnij formularz, walidacja jest włączona po stronie klienta."
-      />
-
-      <Card className="p-6 max-w-xl">
-        <form onSubmit={onSubmit} noValidate className="space-y-5">
-          <Field label="Kwota (zł)" error={errors.amount?.message}>
+    <Modal open onClose={close} title={editing ? 'Edytuj wydatek' : 'Nowy wydatek'}>
+      <form onSubmit={onSubmit} noValidate className="space-y-5">
+        <Field name="amount" label="Kwota (zł)" error={errors.amount?.message}>
+          {(p) => (
             <input
+              {...p}
+              {...register('amount')}
               type="number"
               step="0.01"
               inputMode="decimal"
-              autoFocus
-              aria-invalid={Boolean(errors.amount)}
-              {...register('amount')}
-              className="focus-ring w-full h-12 px-3 text-2xl font-semibold rounded-lg border border-line dark:border-line-dark bg-surface dark:bg-slate-900 num"
               placeholder="0,00"
+              className="focus-ring w-full h-14 px-3 text-3xl font-bold rounded-lg border border-line dark:border-line-dark bg-surface dark:bg-slate-900 num"
             />
-          </Field>
+          )}
+        </Field>
 
-          <Field label="Kategoria" error={errors.category?.message}>
-            <div role="radiogroup" aria-label="Kategoria" className="grid grid-cols-2 sm:grid-cols-5 gap-2">
-              {CATEGORIES.map((c) => {
-                const active = selectedCategory === c.id;
-                return (
-                  <button
-                    key={c.id}
-                    type="button"
-                    role="radio"
-                    aria-checked={active}
-                    onClick={() => setValue('category', c.id as CategoryId, { shouldValidate: true })}
-                    className={[
-                      'focus-ring rounded-lg border px-3 py-2.5 text-sm font-medium text-left transition-colors',
-                      active
-                        ? 'border-brand-500 bg-brand-500/10 text-brand-500 dark:text-brand-400'
-                        : 'border-line dark:border-line-dark hover:bg-slate-50 dark:hover:bg-slate-800/60',
-                    ].join(' ')}
-                  >
-                    <div className="w-6 h-6 rounded-full mb-1" style={{ background: c.color }} aria-hidden />
-                    {c.label}
-                  </button>
-                );
-              })}
-            </div>
-          </Field>
+        <CategoryGroup
+          value={selectedCategory}
+          error={errors.category?.message}
+          onChange={(v) => setValue('category', v, { shouldValidate: true })}
+        />
 
-          <Field label="Data" error={errors.date?.message}>
+        <Field name="date" label="Data" error={errors.date?.message}>
+          {(p) => (
             <input
-              type="date"
+              {...p}
               {...register('date')}
+              type="date"
               max={todayIso()}
               className="focus-ring w-full h-11 px-3 rounded-lg border border-line dark:border-line-dark bg-surface dark:bg-slate-900"
             />
-          </Field>
+          )}
+        </Field>
 
-          <Field label="Opis" error={errors.description?.message}>
+        <Field name="description" label="Opis" error={errors.description?.message}>
+          {(p) => (
             <input
+              {...p}
+              {...register('description')}
               type="text"
               placeholder="np. Lunch z pracy"
-              {...register('description')}
               className="focus-ring w-full h-11 px-3 rounded-lg border border-line dark:border-line-dark bg-surface dark:bg-slate-900"
             />
-          </Field>
+          )}
+        </Field>
 
-          <Field label="Notatka (opcjonalna)" error={errors.note?.message}>
+        <Field name="note" label="Notatka (opcjonalna)" error={errors.note?.message}>
+          {(p) => (
             <textarea
-              rows={2}
+              {...p}
               {...register('note')}
+              rows={2}
               className="focus-ring w-full px-3 py-2 rounded-lg border border-line dark:border-line-dark bg-surface dark:bg-slate-900 resize-none"
             />
-          </Field>
+          )}
+        </Field>
 
-          <div className="flex gap-2 pt-2">
-            <button
-              type="button"
-              onClick={() => navigate(-1)}
-              className="focus-ring h-11 px-4 rounded-lg border border-line dark:border-line-dark text-sm font-semibold"
-            >
-              Anuluj
-            </button>
-            <button
-              type="submit"
-              disabled={isSubmitting}
-              className="focus-ring flex-1 h-11 rounded-lg bg-brand-500 hover:bg-brand-600 disabled:opacity-60 text-white text-sm font-semibold shadow-fab"
-            >
-              {isSubmitting ? 'Zapisywanie…' : editing ? 'Zapisz zmiany' : 'Zapisz wydatek'}
-            </button>
-          </div>
-        </form>
-      </Card>
-    </>
+        <div className="flex gap-2 pt-2">
+          <button
+            type="button"
+            onClick={close}
+            className="focus-ring h-11 px-4 rounded-lg border border-line dark:border-line-dark text-sm font-semibold"
+          >
+            Anuluj
+          </button>
+          <button
+            type="submit"
+            disabled={isSubmitting}
+            className="focus-ring flex-1 h-11 rounded-lg bg-brand-600 hover:bg-brand-700 disabled:opacity-60 text-white text-sm font-semibold shadow-fab"
+          >
+            {isSubmitting ? 'Zapisywanie…' : editing ? 'Zapisz zmiany' : 'Zapisz wydatek'}
+          </button>
+        </div>
+      </form>
+    </Modal>
   );
 }
 
-interface FieldProps {
-  label: string;
-  error?: string | undefined;
-  children: React.ReactNode;
+interface FieldRenderProps {
+  id: string;
+  'aria-invalid': boolean;
+  'aria-describedby'?: string;
 }
 
-function Field({ label, error, children }: FieldProps): JSX.Element {
+interface FieldProps {
+  name: string;
+  label: string;
+  error?: string | undefined;
+  children: (props: FieldRenderProps) => React.ReactNode;
+}
+
+function Field({ name, label, error, children }: FieldProps): JSX.Element {
+  const errorId = error ? `err-${name}` : undefined;
+  const renderProps: FieldRenderProps = {
+    id: name,
+    'aria-invalid': Boolean(error),
+    ...(errorId ? { 'aria-describedby': errorId } : {}),
+  };
   return (
-    <label className="block">
-      <span className="caption text-ink-500 dark:text-slate-500 mb-1.5 block">{label}</span>
-      {children}
+    <div>
+      <label htmlFor={name} className="caption text-ink-500 dark:text-slate-500 mb-1.5 block">
+        {label}
+      </label>
+      {children(renderProps)}
       {error && (
-        <span role="alert" className="mt-1.5 block text-xs font-medium text-danger">
+        <span id={errorId} role="alert" className="mt-1.5 block text-xs font-medium text-danger">
           {error}
         </span>
       )}
-    </label>
+    </div>
+  );
+}
+
+interface CategoryGroupProps {
+  value: CategoryId;
+  error?: string | undefined;
+  onChange: (id: CategoryId) => void;
+}
+
+function CategoryGroup({ value, error, onChange }: CategoryGroupProps): JSX.Element {
+  const errorId = error ? 'err-category' : undefined;
+  return (
+    <div>
+      <span className="caption text-ink-500 dark:text-slate-500 mb-1.5 block">Kategoria</span>
+      <div
+        role="radiogroup"
+        aria-label="Kategoria"
+        aria-invalid={Boolean(error)}
+        aria-describedby={errorId}
+        className="grid grid-cols-3 gap-2"
+      >
+        {CATEGORIES.map((c) => {
+          const active = value === c.id;
+          return (
+            <button
+              key={c.id}
+              type="button"
+              role="radio"
+              aria-checked={active}
+              tabIndex={active ? 0 : -1}
+              onClick={() => onChange(c.id)}
+              className={[
+                'focus-ring rounded-lg border px-3 py-2.5 text-sm font-medium text-left transition-colors',
+                active
+                  ? 'border-brand-500 bg-brand-500/10 text-brand-600 dark:text-brand-400'
+                  : 'border-line dark:border-line-dark hover:bg-slate-50 dark:hover:bg-slate-800/60',
+              ].join(' ')}
+            >
+              <div
+                className="w-6 h-6 rounded-full mb-1.5"
+                style={{ background: c.color }}
+                aria-hidden
+              />
+              {c.label}
+            </button>
+          );
+        })}
+      </div>
+      {error && (
+        <span id={errorId} role="alert" className="mt-1.5 block text-xs font-medium text-danger">
+          {error}
+        </span>
+      )}
+    </div>
   );
 }

@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Home, List, Plus, BarChart3, Settings as SettingsIcon, type LucideIcon } from 'lucide-react';
 
 interface NavItem {
@@ -6,32 +6,35 @@ interface NavItem {
   label: string;
   icon: LucideIcon;
   accent?: boolean;
+  modal?: boolean;
 }
 
 const ITEMS: NavItem[] = [
   { to: '/',             label: 'Pulpit', icon: Home },
   { to: '/expenses',     label: 'Lista',  icon: List },
-  { to: '/expenses/new', label: 'Dodaj',  icon: Plus, accent: true },
+  { to: '/expenses/new', label: 'Dodaj',  icon: Plus, accent: true, modal: true },
   { to: '/stats',        label: 'Stat.',  icon: BarChart3 },
   { to: '/settings',     label: 'Ustaw.', icon: SettingsIcon },
 ];
 
 export function BottomNav(): JSX.Element {
+  const location = useLocation();
   return (
     <nav
       aria-label="Nawigacja główna"
       className="md:hidden fixed bottom-0 inset-x-0 z-40 h-16 border-t border-line dark:border-line-dark bg-surface/95 dark:bg-surface-dark/95 backdrop-blur"
     >
       <ul className="grid grid-cols-5 h-full">
-        {ITEMS.map(({ to, label, icon: Icon, accent }) => (
+        {ITEMS.map(({ to, label, icon: Icon, accent, modal }) => (
           <li key={to} className="contents">
             <NavLink
               to={to}
               end={to === '/'}
+              state={modal ? { background: location } : undefined}
               className={({ isActive }) =>
                 [
                   'focus-ring flex flex-col items-center justify-center gap-0.5 text-[11px] font-medium',
-                  isActive ? 'text-brand-500 dark:text-brand-400' : 'text-ink-500 dark:text-slate-400',
+                  isActive ? 'text-brand-600 dark:text-brand-400' : 'text-ink-500 dark:text-slate-400',
                 ].join(' ')
               }
             >

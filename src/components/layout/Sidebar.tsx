@@ -1,4 +1,4 @@
-import { NavLink } from 'react-router-dom';
+import { NavLink, useLocation } from 'react-router-dom';
 import { Home, List, Plus, BarChart3, Settings as SettingsIcon, Wallet, Sun, Moon, type LucideIcon } from 'lucide-react';
 import { useSettingsStore } from '@/store/settings';
 
@@ -7,12 +7,13 @@ interface NavItem {
   label: string;
   icon: LucideIcon;
   accent?: boolean;
+  modal?: boolean;
 }
 
 const ITEMS: NavItem[] = [
   { to: '/',             label: 'Pulpit',     icon: Home },
   { to: '/expenses',     label: 'Lista',      icon: List },
-  { to: '/expenses/new', label: 'Dodaj',      icon: Plus, accent: true },
+  { to: '/expenses/new', label: 'Dodaj',      icon: Plus, accent: true, modal: true },
   { to: '/stats',        label: 'Statystyki', icon: BarChart3 },
   { to: '/settings',     label: 'Ustawienia', icon: SettingsIcon },
 ];
@@ -20,12 +21,13 @@ const ITEMS: NavItem[] = [
 export function Sidebar(): JSX.Element {
   const dark = useSettingsStore((s) => s.dark);
   const toggleDark = useSettingsStore((s) => s.toggleDark);
+  const location = useLocation();
 
   return (
     <aside className="hidden md:flex w-[240px] shrink-0 h-screen sticky top-0 border-r border-line dark:border-line-dark bg-surface dark:bg-surface-dark flex-col">
       <div className="px-5 pt-5 pb-4 border-b border-line dark:border-line-dark">
         <div className="flex items-center gap-2.5">
-          <span className="w-9 h-9 rounded-lg bg-brand-500/10 text-brand-500 flex items-center justify-center">
+          <span className="w-9 h-9 rounded-lg bg-brand-500/10 text-brand-600 flex items-center justify-center">
             <Wallet size={18} strokeWidth={2.2} />
           </span>
           <div>
@@ -36,16 +38,17 @@ export function Sidebar(): JSX.Element {
       </div>
 
       <nav className="flex-1 overflow-y-auto p-3 space-y-1">
-        {ITEMS.map(({ to, label, icon: Icon, accent }) => (
+        {ITEMS.map(({ to, label, icon: Icon, accent, modal }) => (
           <NavLink
             key={to}
             to={to}
             end={to === '/'}
+            state={modal ? { background: location } : undefined}
             className={({ isActive }) =>
               [
                 'focus-ring w-full flex items-center gap-3 rounded-lg px-3 py-2.5 text-[14px] font-semibold transition-colors',
                 isActive
-                  ? 'bg-brand-500/10 text-brand-500 dark:text-brand-400'
+                  ? 'bg-brand-500/10 text-brand-600 dark:text-brand-400'
                   : 'text-ink-900 dark:text-slate-200 hover:bg-slate-100 dark:hover:bg-slate-800/60',
               ].join(' ')
             }

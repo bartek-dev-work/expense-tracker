@@ -11,7 +11,7 @@ const ICONS = {
 const STYLES = {
   success: 'bg-ok/10 text-ok border-ok/30',
   error: 'bg-danger/10 text-danger border-danger/30',
-  info: 'bg-brand-500/10 text-brand-500 border-brand-500/30',
+  info: 'bg-brand-500/10 text-brand-600 border-brand-500/30',
 } as const;
 
 export function Toaster(): JSX.Element {
