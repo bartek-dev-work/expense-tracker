@@ -60,9 +60,15 @@ Otwórz <http://localhost:5173>. Mock API oraz zestaw startowych wydatków (12 s
 npm run build       # produkcyjny build do dist/
 npm run preview     # podgląd produkcyjnego builda lokalnie
 npm run lint        # type-check (tsc --noEmit)
+npm run test:e2e    # testy e2e (Playwright)
+npm run test:e2e:ui # testy e2e w trybie UI
 ```
 
 Wymagana wersja Node: **20.0+**.
+
+> **Uwaga dla macOS Safari:** domyślnie Tab przeskakuje tylko między polami formularzy.
+> Aby uruchomić pełną nawigację po linkach i przyciskach, włącz: `System Settings → Keyboard → Keyboard navigation`.
+> W Chrome/Firefox działa od razu.
 
 ## 📁 Struktura projektu
 
@@ -107,8 +113,9 @@ Wymagana wersja Node: **20.0+**.
 | `Spacja` na toggle/radio | Przełącznik / wybór |
 | Pierwszy `Tab` na stronie | Pojawia się **„Pomiń do treści"** (skip link) |
 
-## 🔬 Audyty
+## 🔬 Audyty i testy
 
+- **Playwright e2e** — 14 testów weryfikujących nawigację klawiaturą (skip link, sidebar, modal focus trap, formularze, SegmentedControl, toggles, edit/delete). `npm run test:e2e`.
 - **axe-core 4.10** — 0 naruszeń na każdej z 5 stron (Dashboard, Lista, Dodaj, Statystyki, Ustawienia)
 - **Lighthouse** na produkcji (headless Chrome):
   - Accessibility: **96**
@@ -116,7 +123,6 @@ Wymagana wersja Node: **20.0+**.
   - SEO: **90**
   - Performance: **79** (limituje wagę bundla — Recharts + Framer Motion + MSW)
 - **TypeScript strict** — zero `any`, zero `unknown`
-- **Manualny test klawiaturą** — pełne dotarcie do każdego elementu interaktywnego, focus widoczny, modal z trapem
 
 ---
 
